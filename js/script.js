@@ -1,4 +1,5 @@
 const baseUrl = '';
+const liplinersArray = [];
 
 async function getMakeup(url) {
 	try {
@@ -12,21 +13,39 @@ async function getMakeup(url) {
 		const jsonResult = await response.json();
 		const res = jsonResult;
 
-		for (let i = 0; i < res.length; i++) {
-			if (i === 50) {
-				break;
+		// for (let i = 0; i < res.length; i++) {
+		// 	if (i === 5) {
+		// 		break;
+		// 	}
+		// }
+
+		const liplinerToggle = document.querySelector('#lipliner');
+
+		document.querySelector('#liplinerBtn').onclick = function () {
+			console.log('The button has been clicked');
+			for (let i = 0; i < res.length; i++) {
+				if (res[i].product_type === 'lip_liner') {
+					// console.log(rickMortyArray[i]);
+					// liplinersArray.push(res[i]);
+					liplinerToggle.classList.toggle('hide');
+					document.querySelector('#lipliner').innerHTML += `
+						<div class="card">
+							<img src="${res[i].image_link}" class="images" />
+							<br>
+							Brand: ${res[i].brand}
+							<br>
+							Name: ${res[i].name}
+							<br>
+						</div>
+					`;
+				}
 			}
-			document.querySelector('main').innerHTML += `
-                <div class="card">
-                    <div class="card__body">
-                        <img src="${res[i].image_link}" /><br>
-                        <p class="card__desc">${res[i].name}</p> 
-                        <p class="card__desc"></p> 
-                        <p class="card__desc"></p>
-                    </div>
-                </div>
-            `;
-		}
+
+			// document.querySelector('#liplinerBtn').onclick = function () {
+			// 	document.querySelector('#lipliner').innerHTML =
+			// 		'closed, please refresh to load again';
+			// };
+		};
 	} catch (error) {
 		document.querySelector('#alert').innerHTML = showAlertTouser(
 			'An Error occured',
